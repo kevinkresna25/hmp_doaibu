@@ -1,0 +1,7 @@
+{
+  "name": "hmp_doaibu",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
