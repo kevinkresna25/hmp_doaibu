@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>E-Sports</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ng-container *ngFor="let game of games">
+    <ion-card>
+      <img [src]="game.image" class="image-size" />
+      <ion-card-content>
+        <h2>{{ game.name }}</h2>
+        <p>{{ game.description }}</p>
+        <ion-button>Achievement</ion-button>
+        <ion-button>Teams</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+</ion-content>

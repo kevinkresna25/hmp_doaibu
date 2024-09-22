@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Who We Are</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <img [src]="about.image" class="image-size">
+  <h2>{{ about.title }}</h2>
+  <p>{{ about.description }}</p>
+
+  <div class="like-button-container">
+    <ion-button shape="round" class="like-button" (click)="addLike()">
+      {{ likeCounter }}
+      <ion-icon name="heart-circle-outline"></ion-icon>
+    </ion-button>
+  </div>
+</ion-content>
