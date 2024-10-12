@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Schedule Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <img [src]="selected_schedule.image" class="image-size">
+  <h2>{{selected_schedule.event_name}}</h2>
+  <h2>{{ selected_schedule.place }}</h2>
+  <h2>{{ selected_schedule.team }}</h2>
+  <p>{{ selected_schedule.description }}</p>
+
+  <div class="notify-button-container">
+    <ion-button shape="round" class="notify-button" (click)="notify_me()">
+      <label>NOTIFY ME</label>
+      <ion-icon name="notifications-circle-outline"></ion-icon>
+    </ion-button>
+  </div>
+</ion-content>
