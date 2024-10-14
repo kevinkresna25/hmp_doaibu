@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Team Members</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ng-container *ngIf="team_members_data">
+    <ion-card>
+      <img [src]="selected_teams.image" class="image-size"/>
+      <ion-card-content>
+        <h2>{{ team_member_id }}</h2>
+      </ion-card-content>
+    </ion-card>
+    <ion-list>
+      <ion-item *ngFor="let member of team_members_data">
+        <ion-avatar>
+          <img [src]="member.image"/>
+        </ion-avatar>
+        <ion-label>
+          <h2>{{member.name}}</h2>
+          <p>{{member.role }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+</ion-content>

@@ -11,9 +11,9 @@
       <ion-card-content>
         <h1>{{ selected_teams.name }}</h1>
         <ion-list>
-          <ion-item *ngFor="let team of team_achievements(selected_teams)">
+          <ion-item *ngFor="let team of team_members(selected_teams)">
             <ion-label>
-              <h2>{{team.key}}</h2>
+              <h2 [routerLink]="['/team-member', team.key]">{{team.key}}</h2>
             </ion-label>
           </ion-item>
         </ion-list>

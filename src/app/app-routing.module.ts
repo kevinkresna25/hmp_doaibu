@@ -28,12 +28,16 @@ const routes: Routes = [
     loadChildren: () => import('./schedule-detail/schedule-detail.module').then( m => m.ScheduleDetailPageModule)
   },
   {
-    path: 'achievement',
+    path: 'achievement/:achievement_id',
     loadChildren: () => import('./achievement/achievement.module').then( m => m.AchievementPageModule)
   },
   {
     path: 'teams/:teams_id',
     loadChildren: () => import('./teams/teams.module').then( m => m.TeamsPageModule)
+  },
+  {
+    path: 'team-member/:team_member_id',
+    loadChildren: () => import('./team-member/team-member.module').then( m => m.TeamMemberPageModule)
   },
 ];
 
