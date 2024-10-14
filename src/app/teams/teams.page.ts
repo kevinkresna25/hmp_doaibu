@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { GameserviceService } from '../gameservice.service';
 
 @Component({
   selector: 'app-teams',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeamsPage implements OnInit {
 
-  constructor() { }
+  teams_id: any
+  selected_teams: any
+
+  games: any[] = []
+
+  constructor(private route: ActivatedRoute, private gameservice: GameserviceService) { }
 
   ngOnInit() {
+    this.games = this.gameservice.games
+    this.teams_id = this.route.snapshot.paramMap.get("teams_id")
+    this.selected_teams = this.games.find(game=>game.name == this.teams_id)
   }
 
+  team_achievements(selected_teams: any){
+    return Object.entries(this.selected_teams.team_achievement).map(([key, value])=>{
+      return {key, value}
+    })
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ScheduleserviceService } from '../scheduleservice.service';
 
 @Component({
   selector: 'app-schedule',
@@ -7,25 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SchedulePage implements OnInit {
   
-  schedules = [
-    {
-      event_date: '2024-09-04',
-      event_name: 'The International 2024',
-      team_game: 'Dota 2 Team',
-    },
-    {
-      event_date: '2024-09-05',
-      event_name: 'VCT Ascension 2024',
-      team_game: 'Valorant Team',
-    },
-    {
-      event_date: '2024-09-10',
-      event_name: 'MSC 2024',
-      team_game: 'Mobile Legend Team',
-    },
-  ];
+  schedules: any[] = []
 
-  constructor() {}
+  constructor(private scheduleservice: ScheduleserviceService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.schedules = this.scheduleservice.schedules
+  }
 }

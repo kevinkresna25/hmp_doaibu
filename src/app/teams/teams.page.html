@@ -1,13 +1,23 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>teams</ion-title>
+    <ion-title>Teams</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">teams</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ng-container>
+    <ion-card>
+      <img [src]="selected_teams.image" class="image-size" />
+      <ion-card-content>
+        <h1>{{ selected_teams.name }}</h1>
+        <ion-list>
+          <ion-item *ngFor="let team of team_achievements(selected_teams)">
+            <ion-label>
+              <h2>{{team.key}}</h2>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 </ion-content>
