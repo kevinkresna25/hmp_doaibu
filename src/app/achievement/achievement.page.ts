@@ -9,42 +9,44 @@ import { GameserviceService } from '../gameservice.service';
 })
 export class AchievementPage implements OnInit {
 
-  achievements_id: any
-  selected_teams: any
-  team_achievements_list: any[] = []
-  filtered_achievements: any[] = []
-  games: any[] = []
-
-  selected_year: string = "All"
-  years: string[] = ["2024", "2023", "2022"]
+  achievements_id: string | null = null;
+  selected_teams: any = null;
+  years: string[] = ["2024", "2023", "2022"];
+  selected_year: string = "All";
 
   constructor(private route: ActivatedRoute, private gameservice: GameserviceService) { }
 
   ngOnInit() {
-    this.games = this.gameservice.games;
-    this.achievements_id = this.route.snapshot.paramMap.get("achievement_id")
-    this.selected_teams = this.games.find(game => game.name == this.achievements_id)
+    this.achievements_id = this.route.snapshot.paramMap.get("achievement_id");
+    this.selected_teams = this.gameservice.games.find(game => game.name === this.achievements_id);
+  }
 
+  // Fungsi untuk memeriksa apakah achievement_list bertipe array
+  private isAchievementArray(achievement_list: unknown): achievement_list is { name: string, year: string }[] {
+    return Array.isArray(achievement_list) && achievement_list.every(item => 
+      typeof item.name === 'string' && typeof item.year === 'string');
+  }
+
+  // Getter untuk memfilter achievements berdasarkan tahun yang dipilih
+  get filteredAchievements() {
     if (this.selected_teams && this.selected_teams.team_achievement) {
-      this.team_achievements_list = this.get_team_achievements(this.selected_teams);
-      this.filtered_achievements = [...this.team_achievements_list]
-    }
-  }
+      const achievements = Object.entries(this.selected_teams.team_achievement).map(([team_name, achievement_list]) => {
+        
+        // Memastikan bahwa achievement_list bertipe array dengan type guard
+        if (this.isAchievementArray(achievement_list)) {
+          const filtered = this.selected_year === "All"
+            ? achievement_list
+            : achievement_list.filter(achievement => achievement.year === this.selected_year);
 
-  get_team_achievements(selected_teams: any) {
-    return Object.entries(selected_teams.team_achievement).map(([team_name, achievements]) => {
-      return { team_name, achievements }
-    })
-  }
+          return { team_name, achievements: filtered };
+        }
 
-  filter_achievements() {
-    if (this.selected_year == "All") {
-      this.filtered_achievements = [...this.team_achievements_list]
-    } else {
-      this.filtered_achievements = this.team_achievements_list.map(team => {
-        const filtered_achievements = team.achievements.filter((achievement: any) => achievement.year == this.selected_year)
-        return { ...team, achievements: filtered_achievements }
-      }).filter(team => team.achievements.length > 0)
+        // Jika bukan array, kembalikan array kosong untuk tim tersebut
+        return { team_name, achievements: [] };
+      });
+
+      return achievements.filter(team => team.achievements.length > 0);
     }
+    return [];
   }
 }
