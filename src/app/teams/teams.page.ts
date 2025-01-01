@@ -22,8 +22,8 @@ export class TeamsPage implements OnInit {
     this.selected_teams = this.games.find(game=>game.name == this.teams_id)
   }
 
-  team_achievements(selected_teams: any){
-    return Object.entries(this.selected_teams.team_achievement).map(([key, value])=>{
+  team_members(selected_teams: any){
+    return Object.entries(this.selected_teams.team_members).map(([key, value])=>{
       return {key, value}
     })
   }
