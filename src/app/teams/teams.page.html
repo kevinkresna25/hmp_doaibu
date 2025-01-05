@@ -1,23 +1,37 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Teams</ion-title>
+    <ion-button slot="start" (click)="goBack()" fill="clear">
+      <ion-icon name="arrow-back-outline" size="large"></ion-icon>
+    </ion-button>
+    <ion-title slot="primary">Teams</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ng-container>
-    <ion-card>
-      <img [src]="selected_teams.image" class="image-size" />
-      <ion-card-content>
-        <h1>{{ selected_teams.name }}</h1>
-        <ion-list>
-          <ion-item *ngFor="let team of team_members(selected_teams)">
-            <ion-label>
-              <h2 [routerLink]="['/team-member', team.key]">{{team.key}}</h2>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
+<ion-content>
+  <ion-card>
+    <ion-img [src]="gameInfo.banner_game" class="banner-image"></ion-img>
+    <ion-card-content>
+      <h2 class="ion-text-center">{{ gameInfo.name }}</h2>
+    </ion-card-content>
+  </ion-card>
+
+  <ng-container *ngIf="teams && teams.length > 0; else noTeams">
+    <ion-list>
+      <ion-item *ngFor="let team of teams" [routerLink]="['/team-member', team.team_id]">
+        <ion-avatar slot="start">
+          <img [src]="team.banner" alt="Team Banner" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ team.name }}</h2>
+        </ion-label>
+      </ion-item>
+    </ion-list>
   </ng-container>
+
+  <ng-template #noTeams>
+    <div class="no-data-container">
+      <ion-icon name="sad-outline" size="large"></ion-icon>
+      <h3>No teams available</h3>
+    </div>
+  </ng-template>
 </ion-content>

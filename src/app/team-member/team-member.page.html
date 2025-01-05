@@ -1,27 +1,43 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Team Members</ion-title>
+    <ion-button slot="start" (click)="goBack()" fill="clear">
+      <ion-icon name="arrow-back-outline" size="large"></ion-icon>
+    </ion-button>
+    <ion-title slot="primary">
+      Team Details
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ng-container *ngIf="team_members_data">
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ng-container *ngIf="team && team_members.length > 0; else noData">
     <ion-card>
-      <img [src]="selected_teams.image" class="image-size"/>
+      <img [src]="team.banner" alt="Team Image" class="image-size" />
       <ion-card-content>
-        <h2>{{ team_member_id }}</h2>
+        <h2 class="ion-text-center">{{ team.name }}</h2>
       </ion-card-content>
     </ion-card>
+    
     <ion-list>
-      <ion-item *ngFor="let member of team_members_data">
-        <ion-avatar>
-          <img [src]="member.image"/>
+      <ion-list-header>
+        <ion-label>Team Members</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let member of team_members">
+        <ion-avatar slot="start">
+          <img [src]="member.avatar" alt="Member Avatar" />
         </ion-avatar>
         <ion-label>
-          <h2>{{member.name}}</h2>
-          <p>{{member.role }}</p>
+          <h2>{{ member.name }}</h2>
+          <p>{{ member.role }}</p>
         </ion-label>
       </ion-item>
     </ion-list>
   </ng-container>
+
+  <!-- Tampilan jika tidak ada data -->
+  <ng-template #noData>
+    <ion-text color="medium" class="ion-text-center">
+      <h3>No team members available.</h3>
+    </ion-text>
+  </ng-template>
 </ion-content>

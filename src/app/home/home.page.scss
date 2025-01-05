@@ -1,8 +1,17 @@
-ion-title {
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.8rem;
-  color: var(--ion-color-primary);
+ion-toolbar {
+  ion-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: var(--ion-color-primary);
+  }
+
+  ion-button {
+    position: relative;
+  }
 }
 
 .card-container {

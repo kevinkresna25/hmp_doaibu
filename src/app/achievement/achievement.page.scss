@@ -1,69 +1,86 @@
-ion-title {
+ion-toolbar {
+  ion-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
     font-weight: bold;
     font-size: 1.8rem;
     color: var(--ion-color-primary);
   }
-  
-  ion-content {
-    --background: var(--ion-color-light);
-    padding: 16px;
-  }
+}
 
-  ion-item {
-    border-radius: 12px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    --background: var(--ion-color-light);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
+.game-image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
 
-  ion-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-  }
+.game-image {
+  height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-  ion-label {
-    display: block;
-    padding: 15px;
-  }
+.filter-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
 
-  .image-size {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .image-size:hover {
-    transform: scale(1.05);
-  }
-  
-  ion-card {
-    border-radius: 15px;
-    margin: 15px;
-    background-color: var(--ion-color-light);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  ion-card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-  
-  ion-card-content h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-align: center;
-    color: var(--ion-color-primary);
-  }
+ion-select {
+  width: 80%;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
 
-  ion-card-content h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 5px;
-    text-align: center;
-    color: var(--ion-color-primary);
-  }
+.card-container {
+  padding: 0 15px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.achievement-card {
+  padding: 12px;
+  border-radius: 12px;
+  background-color: var(--ion-color-light);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.achievement-card:hover {
+  transform: scale(1.03);
+  background-color: var(--ion-color-light-shade);
+}
+
+ion-card-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--ion-color-primary);
+  text-align: center;
+}
+
+ion-card-subtitle {
+  font-size: 1rem;
+  color: var(--ion-color-medium);
+  text-align: center;
+}
+
+/* No Data Styling */
+.no-achievements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  text-align: center;
+  color: var(--ion-color-medium);
+}
+
+.no-data-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: var(--ion-color-primary);
+}

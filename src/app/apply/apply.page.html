@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button slot="start" (click)="goBack()" fill="clear">
+      <ion-icon name="arrow-back-outline" size="large"></ion-icon>
+    </ion-button>
+    <ion-title slot="primary">Proposal List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="proposals.length > 0; else noProposals">
+    <ion-item *ngFor="let proposal of proposals">
+      <ion-label>
+        <h2>{{ proposal.game_name }}</h2>
+        <p><strong>Team:</strong> {{ proposal.team_name }}</p>
+        <p><strong>Status:</strong> {{ proposal.status }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #noProposals>
+    <div class="no-proposal-container">
+      <ion-icon name="sad-outline" size="large"></ion-icon>
+      <p>No proposals available</p>
+    </div>
+  </ng-template>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="navigateToApplyTeamNew()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

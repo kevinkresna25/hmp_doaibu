@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ScheduleserviceService } from '../scheduleservice.service';
+import { ProjectService } from '../project.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-schedule-detail',
@@ -8,21 +9,71 @@ import { ScheduleserviceService } from '../scheduleservice.service';
   styleUrls: ['./schedule-detail.page.scss'],
 })
 export class ScheduleDetailPage implements OnInit {
+  scheduleId: string | null = null;
+  selectedSchedule: any = null;
 
-  schedule_id: any
-  selected_schedule: any
-
-  schedule_details: any[] = []
-
-  constructor(private route: ActivatedRoute, private scheduleservice: ScheduleserviceService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private projectService: ProjectService,
+    private location: Location
+  ) {}
 
   ngOnInit() {
-    this.schedule_details = this.scheduleservice.schedules
-    this.schedule_id = this.route.snapshot.paramMap.get("schedule_id")
-    this.selected_schedule = this.schedule_details.find(schedule_detail=>schedule_detail.event_name == this.schedule_id)
+    this.scheduleId = this.route.snapshot.paramMap.get('schedule_id');
+    if (this.scheduleId) {
+      this.loadScheduleDetail(parseInt(this.scheduleId, 10));
+    } else {
+      console.error('Schedule ID is missing');
+    }
   }
 
-  notify_me(){
-    alert("Notification Created")
+  loadScheduleDetail(scheduleId: number) {
+    const memberId = parseInt(localStorage.getItem('app_member_id') || '0', 10);
+
+    if (!memberId) {
+      alert('You must be logged in to view schedule details.');
+      return;
+    }
+
+    this.projectService.getScheduleDetail(scheduleId, memberId).subscribe({
+      next: (response: any) => {
+        if (response.result === 'success') {
+          this.selectedSchedule = response.data;
+        } else {
+          console.warn('Schedule not found:', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('Error loading schedule detail:', error);
+      },
+    });
+  }
+
+  toggleNotification(event: any) {
+    const isNotified = event.detail.checked;
+    const memberId = parseInt(localStorage.getItem('app_member_id') || '0', 10);
+
+    if (!memberId) {
+      alert('You must be logged in to set notifications.');
+      return;
+    }
+
+    this.projectService.updateNotification(this.selectedSchedule.schedule_id, memberId).subscribe({
+      next: (response: any) => {
+        if (response.result === 'success') {
+          this.selectedSchedule.notified = isNotified;
+          console.log('Notification status updated successfully.');
+        } else {
+          console.warn('Failed to update notification status:', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('Error updating notification status:', error);
+      },
+    });
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

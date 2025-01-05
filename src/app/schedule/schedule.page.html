@@ -1,16 +1,32 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Our Schedule</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title slot="primary">Schedules</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-item *ngFor="let schedule of schedules" [routerLink]="['/schedule-detail', schedule.event_name]" >
+  <ion-list *ngIf="schedules.length > 0; else noSchedule">
+    <ion-item
+      *ngFor="let schedule of schedules"
+      [routerLink]="['/schedule-detail', schedule.schedule_id]"
+    >
       <ion-label>
-        <h2>{{ schedule.event_name }}</h2>
-        <p>{{ schedule.team_game }} | {{ schedule.event_date | date: "dd MMM yyyy" }}</p>
+        <h2>{{ schedule.title }}</h2>
+        <p><strong>{{ schedule.game_name }} - {{ schedule.team_name }}</strong></p>
+        <p><strong>Date:</strong> {{ schedule.date }}</p>
+        <p><strong>Location:</strong> {{ schedule.location }}</p>
+        <p>{{ schedule.shortDescription }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <ng-template #noSchedule>
+    <div class="no-schedule-container">
+      <ion-icon name="calendar-clear-outline" class="no-schedule-icon"></ion-icon>
+      <p>No schedules available</p>
+    </div>
+  </ng-template>
 </ion-content>

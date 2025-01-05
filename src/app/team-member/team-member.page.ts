@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { GameserviceService } from '../gameservice.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectService } from '../project.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-team-member',
@@ -8,22 +9,51 @@ import { GameserviceService } from '../gameservice.service';
   styleUrls: ['./team-member.page.scss'],
 })
 export class TeamMemberPage implements OnInit {
+  team: any = {};
+  team_members: any[] = [];
+  team_id: number = 0;
 
-  team_member_id: any
-  selected_teams: any
-  team_members_data: any
-
-  constructor(private route: ActivatedRoute, private gameservice: GameserviceService) { }
+  constructor(
+    private projectService: ProjectService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location
+  ) {}
 
   ngOnInit() {
-    this.team_member_id = this.route.snapshot.paramMap.get("team_member_id")
+    this.route.params.subscribe((params) => {
+      this.team_id = parseInt(params['team_id'], 10);
 
-    this.selected_teams = this.gameservice.games.find(game=>
-      Object.keys(game.team_members).includes(this.team_member_id)
-    )
+      if (this.team_id) {
+        this.fetchTeamDetails(this.team_id);
+      } else {
+        console.error('Invalid team ID');
+      }
+    });
+  }
 
-    if (this.selected_teams) {
-      this.team_members_data = this.selected_teams.team_members[this.team_member_id]
-    }
+  fetchTeamDetails(team_id: number) {
+    this.projectService.getTeamMembers(team_id).subscribe(
+      (response: any) => {
+        if (response.result === 'success') {
+          this.team = { name: response.team, banner: response.banner };
+          this.team_members = response.data;
+        } else {
+          console.error('Failed to load team details:', response.message);
+          this.router.navigate(['/teams']);
+        }
+      },
+      (error) => {
+        console.error('Error fetching team details:', error);
+      }
+    );
+  }
+
+  refreshTeamMembers() {
+    this.fetchTeamDetails(this.team_id);
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

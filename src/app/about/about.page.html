@@ -1,18 +1,40 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Who We Are</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title slot="primary">Who We Are</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <img [src]="about.image" class="image-size">
-  <h2>{{ about.title }}</h2>
-  <p>{{ about.description }}</p>
+<ion-content [fullscreen]="true" class="scrollable-content">
+  <div class="about-image-container">
+    <img
+      [src]="about?.image_url"
+      alt="About Us Image"
+      class="image-size"
+    />
+  </div>
 
-  <div class="like-button-container">
-    <ion-button shape="round" class="like-button" (click)="addLike()">
+  <div class="about-content">
+    <h2>{{ about?.title || 'Loading...' }}</h2>
+    <p>{{ about?.description || '' }}</p>
+  </div>
+
+  <div class="like-button-container" *ngIf="about">
+    <ion-button
+      shape="round"
+      class="like-button"
+      fill="solid"
+      [color]="hasLiked ? 'danger' : 'medium'"
+      (click)="toggleLike()"
+      [disabled]="isProcessing"
+    >
+      <ion-icon
+        slot="start"
+        [name]="hasLiked ? 'heart' : 'heart-outline'"
+      ></ion-icon>
       {{ likeCounter }}
-      <ion-icon name="heart-circle-outline"></ion-icon>
     </ion-button>
   </div>
 </ion-content>

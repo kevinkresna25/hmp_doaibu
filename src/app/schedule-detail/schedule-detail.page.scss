@@ -1,70 +1,79 @@
-ion-title {
+ion-toolbar {
+  ion-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
     font-weight: bold;
     font-size: 1.8rem;
     color: var(--ion-color-primary);
   }
-  
-  .image-size {
-    width: 100%;
-    height: auto;
-    max-height: 300px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  ion-button {
+    position: relative;
   }
-  
-  h2 {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--ion-color-primary);
-    margin-bottom: 5px;
-  }
-  
-  p {
-    font-size: 1rem;
-    line-height: 1.5;
-    text-align: justify;
-    color: var(--ion-color-medium);
-    padding: 0 15px;
-  }
-  
-  .notify-button-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 5px;
-    max-width: 90%; // kanan
-    margin-right: auto;
-  }
-  
-  .notify-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    border-radius: 30px;
-    color: white;
-    border: 2px solid var(--ion-color-primary);
-    transition: transform 0.2s ease, background-color 0.2s ease;
-    width: auto;
-    height: 50px;
-    margin-bottom: 30px;
-  }
-  
-  .notify-button ion-icon {
-    margin-left: 10px;
-  }
-  
-  .notify-button:hover {
-    transform: scale(1.05);
-    --background: var(--ion-color-primary-shade);
-    color: white;
-  }
-  
-  ion-button ion-icon {
-    margin-left: 0;
-    font-size: 1.5rem;
-  }
-  
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.image-size {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-info {
+  padding: 16px;
+  background: var(--ion-color-light);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 15px;
+}
+
+.schedule-info h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--ion-color-primary);
+  margin-bottom: 10px;
+}
+
+.schedule-info p {
+  font-size: 1rem;
+  color: var(--ion-color-medium);
+  margin: 5px 0;
+}
+
+.toggle-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: var(--ion-color-light);
+  border-radius: 12px;
+  margin: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.no-schedule-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: var(--ion-color-medium);
+}
+
+.no-schedule-icon {
+  font-size: 4rem;
+  margin-bottom: 10px;
+}
+
+.no-schedule-text {
+  font-size: 1.2rem;
+}

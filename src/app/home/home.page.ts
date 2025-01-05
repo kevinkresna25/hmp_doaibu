@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,12 @@ export class HomePage {
       link: '/schedule'
     }
   ];
-
-  constructor() {}
+  
+  constructor(private router: Router) {}
+   ngOnInit() {
+    const username = localStorage.getItem("app_username");
+    if (!username) {
+      this.router.navigate(['/login']);
+    }
+  }
 }

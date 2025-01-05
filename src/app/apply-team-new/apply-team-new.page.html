@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button slot="start" (click)="goBack()" fill="clear">
+      <ion-icon name="arrow-back-outline" size="large"></ion-icon>
+    </ion-button>
+    <ion-title slot="primary">Apply Team</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="apply-team-content">
+  <div class="selector-container" id="first">
+    <ion-item class="styled-item">
+      <ion-select
+        [(ngModel)]="selectedGame"
+        label="Choose Game"
+        interface="popover"
+        (ionChange)="loadTeams()"
+        placeholder="Select Game"
+      >
+        <ion-select-option *ngFor="let game of games" [value]="game.game_id">
+          {{ game.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <div class="selector-container">
+    <ion-item class="styled-item">
+      <ion-select
+        [(ngModel)]="selectedTeam"
+        interface="popover"
+        label="Choose Team"
+        [disabled]="teams.length === 0"
+        placeholder="Select Team"
+      >
+        <ion-select-option *ngFor="let team of teams" [value]="team.team_id">
+          {{ team.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <ion-item>
+    <ion-textarea
+      label="Description"
+      labelPlacement="floating"
+      fill="outline"
+      placeholder="Tell us why you deserve to join this team"
+      [autoGrow]="true"
+      [(ngModel)]="description"
+    ></ion-textarea>
+  </ion-item>
+
+  <div class="submit-container">
+    <ion-button id="button-submit" expand="block" color="primary" (click)="applyTeam()">Apply</ion-button>
+  </div>
+</ion-content>

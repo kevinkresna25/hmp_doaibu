@@ -1,18 +1,25 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>E-Sports</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title slot="primary">E-Sports</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ng-container *ngFor="let game of games">
     <ion-card>
-      <img [src]="game.image" class="image-size" />
+      <img [src]="game.banner" class="image-size" />
       <ion-card-content>
         <h2>{{ game.name }}</h2>
         <p>{{ game.description }}</p>
-        <ion-button [routerLink]="['/achievement', game.name]">Achievement</ion-button>
-        <ion-button [routerLink]="['/teams', game.name]">Teams</ion-button>
+        <ion-button expand="full" (click)="goToTeams(game.game_id)">
+          Team
+        </ion-button>
+        <ion-button expand="full" color="secondary" (click)="goToAchievements(game.game_id)">
+          Achievement
+        </ion-button>
       </ion-card-content>
     </ion-card>
   </ng-container>

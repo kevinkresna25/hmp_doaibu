@@ -1,20 +1,41 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Schedule Detail</ion-title>
+    <ion-button slot="start" (click)="goBack()" fill="clear">
+      <ion-icon name="arrow-back-outline" size="large"></ion-icon>
+    </ion-button>
+    <ion-title slot="primary">Schedule Detail</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <img [src]="selected_schedule.image" class="image-size">
-  <h2>{{selected_schedule.event_name}}</h2>
-  <h2>{{ selected_schedule.place }}</h2>
-  <h2>{{ selected_schedule.team }}</h2>
-  <p>{{ selected_schedule.description }}</p>
+<ion-content>
+  <ng-container *ngIf="selectedSchedule; else noSchedule">
 
-  <div class="notify-button-container">
-    <ion-button shape="round" class="notify-button" (click)="notify_me()">
-      <label>NOTIFY ME</label>
-      <ion-icon name="notifications-circle-outline"></ion-icon>
-    </ion-button>
-  </div>
+    <div class="image-container" *ngIf="selectedSchedule.image_url">
+      <ion-img [src]="selectedSchedule.image_url" class="image-size"></ion-img>
+    </div>
+
+    <div class="schedule-info">
+      <h1>{{ selectedSchedule.title }} - {{ selectedSchedule.game_name }}</h1>
+      <p><strong>Team:</strong> {{ selectedSchedule.team_name }}</p>
+      <p><strong>Date:</strong> {{ selectedSchedule.formatted_date }}</p>
+      <p><strong>Location:</strong> {{ selectedSchedule.location }}</p>
+      <br>
+      <p>{{ selectedSchedule.description }}</p>
+    </div>
+
+    <div class="toggle-container">
+      <ion-label>Notify Me</ion-label>
+      <ion-toggle
+        [checked]="selectedSchedule.notified"
+        (ionChange)="toggleNotification($event)"
+      ></ion-toggle>
+    </div>
+  </ng-container>
+
+  <ng-template #noSchedule>
+    <div class="no-schedule-container">
+      <ion-icon name="calendar-clear-outline" class="no-schedule-icon"></ion-icon>
+      <p>Schedule Not Found</p>
+    </div>
+  </ng-template>
 </ion-content>

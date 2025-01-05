@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GameserviceService } from '../gameservice.service';
+import { ProjectService } from '../project.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-achievement',
@@ -8,45 +9,57 @@ import { GameserviceService } from '../gameservice.service';
   styleUrls: ['./achievement.page.scss'],
 })
 export class AchievementPage implements OnInit {
+  achievements: any[] = [];
+  filteredAchievements: any[] = [];
+  gameImage: string | null = null;
+  years: string[] = ['All'];
+  selectedYear: string = 'All';
 
-  achievements_id: string | null = null;
-  selected_teams: any = null;
-  years: string[] = ["2024", "2023", "2022"];
-  selected_year: string = "All";
-
-  constructor(private route: ActivatedRoute, private gameservice: GameserviceService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private projectService: ProjectService,
+    private location: Location
+  ) {}
 
   ngOnInit() {
-    this.achievements_id = this.route.snapshot.paramMap.get("achievement_id");
-    this.selected_teams = this.gameservice.games.find(game => game.name === this.achievements_id);
-  }
-
-  // Fungsi untuk memeriksa apakah achievement_list bertipe array
-  private isAchievementArray(achievement_list: unknown): achievement_list is { name: string, year: string }[] {
-    return Array.isArray(achievement_list) && achievement_list.every(item => 
-      typeof item.name === 'string' && typeof item.year === 'string');
-  }
-
-  // Getter untuk memfilter achievements berdasarkan tahun yang dipilih
-  get filteredAchievements() {
-    if (this.selected_teams && this.selected_teams.team_achievement) {
-      const achievements = Object.entries(this.selected_teams.team_achievement).map(([team_name, achievement_list]) => {
-        
-        // Memastikan bahwa achievement_list bertipe array dengan type guard
-        if (this.isAchievementArray(achievement_list)) {
-          const filtered = this.selected_year === "All"
-            ? achievement_list
-            : achievement_list.filter(achievement => achievement.year === this.selected_year);
-
-          return { team_name, achievements: filtered };
-        }
-
-        // Jika bukan array, kembalikan array kosong untuk tim tersebut
-        return { team_name, achievements: [] };
-      });
-
-      return achievements.filter(team => team.achievements.length > 0);
+    const gameId = this.route.snapshot.params['game_id'];
+    if (gameId) {
+      this.loadAchievements(parseInt(gameId, 10));
     }
-    return [];
+
+    const currentYear = new Date().getFullYear();
+    for (let year = 2015; year <= currentYear; year++) {
+      this.years.push(year.toString());
+    }
+  }
+
+  loadAchievements(gameId: number) {
+    this.projectService.getAchievements(gameId).subscribe({
+      next: (response: any) => {
+        if (response.result === 'success') {
+          this.gameImage = response.game.image;
+
+          this.achievements = response.team_achievement.map((ach: any) => ({
+            team_name: ach.team_name,
+            achievement: ach.achievement,
+            year: ach.year.slice(0, 4),
+          }));
+
+          this.filteredAchievements = this.achievements;
+        }
+      },
+      error: () => console.error('Failed to load achievements'),
+    });
+  }
+
+  filterAchievements() {
+    this.filteredAchievements =
+      this.selectedYear === 'All'
+        ? this.achievements
+        : this.achievements.filter((ach) => ach.year === this.selectedYear);
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
