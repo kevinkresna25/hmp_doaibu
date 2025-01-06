@@ -25,7 +25,6 @@ export class AppComponent {
   usernameSubject = new Subject<string>();
 
   constructor(private projectService: ProjectService, private router: Router) {
-    // Debounce API calls for username validation
     this.usernameSubject.pipe(debounceTime(500)).subscribe((username) => {
       this.checkUsername(username);
     });
@@ -40,7 +39,7 @@ export class AppComponent {
       this.usernameError = 'Username must be at least 3 characters.';
     } else {
       this.usernameError = '';
-      this.usernameSubject.next(this.username); // Trigger API validation
+      this.usernameSubject.next(this.username);
     }
   }
 
